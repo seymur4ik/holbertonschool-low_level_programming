@@ -1,44 +1,44 @@
+#include "main.h"
 #include <stdlib.h>
 
 /**
-* alloc_grid - allocates a 2D array of integers
-* @width: the width of the grid
-* @height: the height of the grid
-*
-* Return: a pointer to the newly allocated grid
-*/
+ * alloc_grid - nested loop to make grid
+ * @width: width input
+ * @height: height input
+ * Return: pointer to 2 dim. array
+ */
 int **alloc_grid(int width, int height)
 {
-if (width <= 0 || height <= 0)
-{
-return NULL;
-}
+  int **mee;
+  int x, y;
 
-int **grid = (int **)malloc(height * sizeof(int *));
-if (grid == NULL)
-}
-return NULL;
-}
+  if (width <= 0 || height <= 0)
+    return (NULL);
 
-for (int i = 0; i < height; i++)
-{
-grid[i] = (int *)malloc(width * sizeof(int));
-if (grid[i] == NULL)
-{
-// Free previously allocated memory to avoid memory leaks
-for (int j = 0; j < i; j++)
-{
-free(grid[j]);
-}
-free(grid);
-return NULL;
-}
+  mee = malloc(sizeof(int *) * height);
 
-for (int j = 0; j < width; j++)
-{
-grid[i][j] = 0;
-}
-}
+  if (mee == NULL)
+    return (NULL);
 
-return grid;
+  for (x = 0; x < height; x++)
+    {
+      mee[x] = malloc(sizeof(int) * width);
+
+      if (mee[x] == NULL)
+	{
+	  for (; x >= 0; x--)
+	    free(mee[x]);
+
+	  free(mee);
+	  return (NULL);
+	}
+    }
+
+  for (x = 0; x < height; x++)
+    {
+      for (y = 0; y < width; y++)
+	mee[x][y] = 0;
+    }
+
+  return (mee);
 }
